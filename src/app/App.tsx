@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Dashboard from './components/Dashboard/DashBoard';
+import Dashboard from './components/DashBoard/DashBoard';
 import './App.scss';
 import type { ZontDevice } from './utils/interfaces/zont-devices.interface';
 
@@ -51,15 +51,3 @@ const App: React.FC = () => {
 };
 
 export default App;
-// import { ZontDeviceList } from './components/DeviceList/DashBoard';
-
-// function App() {
-//   return (
-//     <div className="dashboard">
-//       <h1 className="dashboard__title">Мониторинг показателей</h1>
-//       <ZontDeviceList />
-//     </div>
-//   );
-// }
-
-// export default App;
