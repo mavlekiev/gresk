@@ -1,25 +1,29 @@
 import React from 'react';
 import './SensorCard.scss';
+import type { ZontSensor } from '../../utils/interfaces/zont-devices.interface';
 
 interface SensorCardProps {
   sensor: ZontSensor;
+  min?: number;
+  max?: number;
 }
 
-const SensorCard: React.FC<SensorCardProps> = ({ sensor }) => {
+const SensorCard: React.FC<SensorCardProps> = ({ sensor, min, max }) => {
   const isOutOfRange =
-    sensor.min !== undefined &&
-    sensor.max !== undefined &&
-    (sensor.value < sensor.min || sensor.value > sensor.max);
+    min !== undefined &&
+    max !== undefined &&
+    sensor.value !== undefined &&
+    (sensor.value < min || sensor.value > max);
 
   return (
     <div className="sensor-card">
       <div className="range-indicator">
-        <span>{sensor.min ?? '-'}</span>
-        <span>{sensor.max ?? '-'}</span>
+        <span>{min ?? '-'}</span>
+        <span>{max ?? '-'}</span>
       </div>
       <div className="value-container">
         <span style={{ color: isOutOfRange ? 'red' : '#333' }}>
-          {sensor.value} {sensor.unit}
+          {sensor.value ?? '-'} {sensor.unit ?? ''}
         </span>
         <p>{sensor.name}</p>
       </div>
