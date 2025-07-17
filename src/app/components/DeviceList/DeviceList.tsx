@@ -1,74 +1,41 @@
-import { useEffect, useState } from 'react';
+import React from 'react';
+import './DeviceList.scss';
 import type { ZontDevice } from '../../utils/interfaces/zont-devices.interface';
-import { ZontDeviceCard } from '../DeviceCard/DeviceCard';
 
-export const ZontDeviceList = () => {
-  const [devices, setDevices] = useState<ZontDevice[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+interface DeviceListProps {
+  devices: ZontDevice[];
+  onSelectDevice: (deviceId: number) => void;
+  selectedDeviceId: number | null;
+}
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const response = await fetch(
-          'https://my.zont.online/api/widget/v3/devices ',
-          {
-            headers: {
-              'X-ZONT-Client': 'mavlekiev@gmail.com',
-              'X-ZONT-TOKEN': '917anr4jyo1v8l59uweaaxs8agr7s4av',
-            },
-          }
-        );
-
-        if (!response.ok) throw new Error('Ошибка загрузки данных');
-
-        const data = await response.json();
-        setDevices(data.devices);
-        setLoading(false);
-      } catch (err: unknown) {
-        if (err instanceof Error) {
-          setError(err.message);
-        } else if (typeof err === 'string') {
-          setError(err);
-        } else {
-          setError('Произошла неизвестная ошибка');
-        }
-        setLoading(false);
-      }
-    }
-
-    // const fetchZontData = async () => {
-    //   try {
-    //     const data = await getZontDevices();
-
-    //     if (data.ok && Array.isArray(data.devices)) {
-    //       setDevices(data.devices);
-    //     } else {
-    //       throw new Error('Неверный формат ответа');
-    //     }
-    //   } catch (error: any) {
-    //     setError(error.message || 'Неизвестная ошибка');
-    //   } finally {
-    //     setLoading(false);
-    //   }
-    // };
-    fetchData();
-    const interval = setInterval(fetchData, 300000);
-    return () => clearInterval(interval);
-  }, []);
-
-  if (loading) return <p className="card-list__message">Загрузка данных...</p>;
-  if (error) return <p className="card-list__message">Ошибка: {error}</p>;
-
+const DeviceList: React.FC<DeviceListProps> = ({
+  devices,
+  onSelectDevice,
+  selectedDeviceId,
+}) => {
   return (
-    <div className="card-list">
-      {devices.length > 0 ? (
-        devices.map((device) => (
-          <ZontDeviceCard key={device.id} device={device} />
-        ))
-      ) : (
-        <p>Нет данных</p>
-      )}
+    <div className="device-list">
+      {devices.map((device) => (
+        <div
+          key={device.id}
+          className={`device-item ${device.id === selectedDeviceId ? 'selected' : ''}`}
+          onClick={() => onSelectDevice(device.id)}
+        >
+          <div className="device-status">
+            <span className={device.online ? 'online' : 'offline'}></span>
+            <div>
+              <h3>{device.name}</h3>
+              <p>{device.device_info.model}</p>
+              <p>{device.online ? 'На связи' : 'Не на связи'}</p>
+            </div>
+          </div>
+          <div className="device-actions">
+            {/* Здесь можно добавить дополнительные действия */}
+          </div>
+        </div>
+      ))}
     </div>
   );
 };
+
+export default DeviceList;
