@@ -1,6 +1,18 @@
 .device-list {
+  max-width: 25dvw;
   background-color: #f9f9f9;
   padding: 10px;
+  font-size: 1rem;
+
+  p {
+    margin: 0;
+    font-size: 12px;
+  }
+
+  h3 {
+    margin: 0;
+    font-size: 14px;
+  }
 }
 
 .device-item {
@@ -13,7 +25,7 @@
 }
 
 .device-item.selected {
-  background-color: #e0f7fa;
+  background-color: #6bc5d1;
 }
 
 .device-status {
@@ -37,5 +49,5 @@
 }
 
 .device-actions {
-  margin-left: autos;
+  margin-left: auto;
 }

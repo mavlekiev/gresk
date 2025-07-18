@@ -15,6 +15,8 @@ const SensorCard: React.FC<SensorCardProps> = ({ sensor, min, max }) => {
     sensor.value !== undefined &&
     (sensor.value < min || sensor.value > max);
 
+  const hasTriggered = sensor.triggered === true;
+
   return (
     <div className="sensor-card">
       <div className="range-indicator">
@@ -22,7 +24,11 @@ const SensorCard: React.FC<SensorCardProps> = ({ sensor, min, max }) => {
         <span>{max ?? '-'}</span>
       </div>
       <div className="value-container">
-        <span style={{ color: isOutOfRange ? 'red' : '#333' }}>
+        <span
+          style={{
+            color: hasTriggered ? 'red' : isOutOfRange ? 'red' : '#333',
+          }}
+        >
           {sensor.value ?? '-'} {sensor.unit ?? ''}
         </span>
         <p>{sensor.name}</p>

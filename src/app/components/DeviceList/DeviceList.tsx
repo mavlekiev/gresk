@@ -23,7 +23,7 @@ const DeviceList: React.FC<DeviceListProps> = ({
         >
           <div className="device-status">
             <span className={device.online ? 'online' : 'offline'}></span>
-            <div>
+            <div className="device-description">
               <h3>{device.name}</h3>
               <p>{device.device_info.model}</p>
               <p>{device.online ? 'На связи' : 'Не на связи'}</p>

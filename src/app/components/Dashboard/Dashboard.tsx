@@ -27,32 +27,30 @@ const Dashboard: React.FC<DashboardProps> = ({ devices }) => {
   };
 
   const getVoltageSensors = (device: ZontDevice) => {
-    return device.sensors.filter((sensor) => sensor.type === 'voltage');
+    return device.sensors.filter((sensor) =>
+      sensor.name.includes('Контроль напряжения питания')
+    );
   };
 
-  // Получаем диапазон по типу датчика
-  const getRangeForSensor = (device: ZontDevice, sensorType: string) => {
-    let circuitType = '';
+  // Получаем диапазон по `name` контура
+  const getRangeForSensor = (device: ZontDevice, sensorName: string) => {
+    let circuitName = '';
 
-    switch (sensorType) {
-      case 'temperature':
-        circuitType = 'consumer'; // или 'boiler', в зависимости от логики
-        break;
-      case 'pressure':
-        circuitType = 'consumer'; // или отдельный контур для давления
-        break;
-      case 'voltage':
-        circuitType = 'boiler'; // или любой другой контур
-        break;
-      default:
-        circuitType = 'consumer';
+    if (sensorName.includes('отопление')) {
+      circuitName = 'Отопление';
+    } else if (sensorName.includes('ГВС')) {
+      circuitName = 'Тем. ГВС';
+    } else if (sensorName.includes('давление')) {
+      circuitName = 'Давление';
+    } else if (sensorName.includes('напряжения')) {
+      circuitName = 'Контроль напряжения питания';
     }
 
-    const circuit = device.circuits.find((c) => c.type === circuitType);
+    const circuit = device.circuits.find((c) => c.name === circuitName);
 
     return {
-      min: circuit?.min,
-      max: circuit?.max,
+      min: circuit?.min ?? undefined,
+      max: circuit?.max ?? undefined,
     };
   };
 
@@ -76,7 +74,7 @@ const Dashboard: React.FC<DashboardProps> = ({ devices }) => {
                 {getTemperatureSensors(selectedDevice).map((sensor) => {
                   const { min, max } = getRangeForSensor(
                     selectedDevice,
-                    'temperature'
+                    sensor.name
                   );
                   return (
                     <SensorCard
@@ -99,7 +97,7 @@ const Dashboard: React.FC<DashboardProps> = ({ devices }) => {
                 {getVoltageSensors(selectedDevice).map((sensor) => {
                   const { min, max } = getRangeForSensor(
                     selectedDevice,
-                    'voltage'
+                    sensor.name
                   );
                   return (
                     <SensorCard
@@ -120,7 +118,7 @@ const Dashboard: React.FC<DashboardProps> = ({ devices }) => {
                 {getPressureSensors(selectedDevice).map((sensor) => {
                   const { min, max } = getRangeForSensor(
                     selectedDevice,
-                    'pressure'
+                    sensor.name
                   );
                   return (
                     <SensorCard
