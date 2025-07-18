@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Dashboard from './components/Dashboard/DashBoard';
+import Dashboard from './components/Dashboard/Dashboard';
 import './App.scss';
 import type { ZontDevice } from './utils/interfaces/zont-devices.interface';
 
