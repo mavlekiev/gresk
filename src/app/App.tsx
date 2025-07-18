@@ -11,10 +11,9 @@ const App: React.FC = () => {
   useEffect(() => {
     async function fetchData() {
       try {
-        // const url = 'https://my.zont.online/api/widget/v3/devices';
-        // const zontClientName = 'mavlekiev@gmail.com';
-        // const zontToken = '917anr4jyo1v8l59uweaaxs8agr7s4av';
-        const response = await fetch('http://localhost:3000/api/zont/devices');
+        const response = await fetch(
+          'https://server-gresk.onrender.com/api/zont/devices'
+        );
 
         if (!response.ok) throw new Error('Ошибка загрузки данных');
 
@@ -40,8 +39,6 @@ const App: React.FC = () => {
 
   if (loading) return <p className="card-list__message">Загрузка данных...</p>;
   if (error) return <p className="card-list__message">Ошибка: {error}</p>;
-
-  // if (error) return <div>Error: {error}</div>;
 
   return (
     <div className="app">

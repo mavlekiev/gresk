@@ -12,7 +12,9 @@ const SensorCard: React.FC<SensorCardProps> = ({ sensor }) => {
   return (
     <div className="sensor-card">
       <div className="value-container">
-        <span style={{ color: hasTriggered ? 'red' : '#333' }}>
+        <span
+          style={{ color: hasTriggered || sensor.value === 0 ? 'red' : '#333' }}
+        >
           {sensor.value ?? '-'} {sensor.unit ?? ''}
         </span>
         <p>{sensor.name}</p>
