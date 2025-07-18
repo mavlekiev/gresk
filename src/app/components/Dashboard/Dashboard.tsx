@@ -18,41 +18,18 @@ const Dashboard: React.FC<DashboardProps> = ({ devices }) => {
   const selectedDevice = devices.find((d) => d.id === selectedDeviceId);
 
   // Фильтры датчиков
-  const getTemperatureSensors = (device: ZontDevice) => {
-    return device.sensors.filter((sensor) => sensor.type === 'temperature');
-  };
+  const getTemperatureSensors = (device: ZontDevice) =>
+    device.sensors.filter((sensor) => sensor.type === 'temperature');
 
-  const getPressureSensors = (device: ZontDevice) => {
-    return device.sensors.filter((sensor) => sensor.type === 'pressure');
-  };
+  const getPressureSensors = (device: ZontDevice) =>
+    device.sensors.filter((sensor) => sensor.type === 'pressure');
 
-  const getVoltageSensors = (device: ZontDevice) => {
-    return device.sensors.filter((sensor) =>
-      sensor.name.includes('Контроль напряжения питания')
+  const getVoltageSensors = (device: ZontDevice) =>
+    device.sensors.filter(
+      (sensor) =>
+        sensor.name.includes('Контроль напряжения питания') ||
+        sensor.name.includes('Напряжение питания')
     );
-  };
-
-  // Получаем диапазон по `name` контура
-  const getRangeForSensor = (device: ZontDevice, sensorName: string) => {
-    let circuitName = '';
-
-    if (sensorName.includes('отопление')) {
-      circuitName = 'Отопление';
-    } else if (sensorName.includes('ГВС')) {
-      circuitName = 'Тем. ГВС';
-    } else if (sensorName.includes('давление')) {
-      circuitName = 'Давление';
-    } else if (sensorName.includes('напряжения')) {
-      circuitName = 'Контроль напряжения питания';
-    }
-
-    const circuit = device.circuits.find((c) => c.name === circuitName);
-
-    return {
-      min: circuit?.min ?? undefined,
-      max: circuit?.max ?? undefined,
-    };
-  };
 
   return (
     <div className="dashboard">
@@ -68,67 +45,37 @@ const Dashboard: React.FC<DashboardProps> = ({ devices }) => {
           <p>Выберите устройство из списка слева</p>
         ) : (
           <>
-            <h2>ТЕМПЕРАТУРА</h2>
             {getTemperatureSensors(selectedDevice).length > 0 ? (
-              <div className="sensor-grid">
-                {getTemperatureSensors(selectedDevice).map((sensor) => {
-                  const { min, max } = getRangeForSensor(
-                    selectedDevice,
-                    sensor.name
-                  );
-                  return (
-                    <SensorCard
-                      key={sensor.id}
-                      sensor={sensor}
-                      min={min}
-                      max={max}
-                    />
-                  );
-                })}
-              </div>
+              <>
+                <h2 className="title">ТЕМПЕРАТУРА</h2>
+                <div className="sensor-grid">
+                  {getTemperatureSensors(selectedDevice).map((sensor) => (
+                    <SensorCard key={sensor.id} sensor={sensor} />
+                  ))}
+                </div>
+              </>
             ) : (
-              <p>Датчиков температуры не найдено</p>
+              ''
             )}
 
-            <h2>ДАТЧИКИ</h2>
-
             {getVoltageSensors(selectedDevice).length > 0 ? (
-              <div className="sensor-grid">
-                {getVoltageSensors(selectedDevice).map((sensor) => {
-                  const { min, max } = getRangeForSensor(
-                    selectedDevice,
-                    sensor.name
-                  );
-                  return (
-                    <SensorCard
-                      key={sensor.id}
-                      sensor={sensor}
-                      min={min}
-                      max={max}
-                    />
-                  );
-                })}
-              </div>
+              <>
+                <h2 className="title">ДАТЧИКИ</h2>
+                <div className="sensor-grid">
+                  {getVoltageSensors(selectedDevice).map((sensor) => (
+                    <SensorCard key={sensor.id} sensor={sensor} />
+                  ))}
+                </div>
+              </>
             ) : (
-              <p>Датчиков напряжения не найдено</p>
+              ''
             )}
 
             {getPressureSensors(selectedDevice).length > 0 ? (
               <div className="sensor-grid">
-                {getPressureSensors(selectedDevice).map((sensor) => {
-                  const { min, max } = getRangeForSensor(
-                    selectedDevice,
-                    sensor.name
-                  );
-                  return (
-                    <SensorCard
-                      key={sensor.id}
-                      sensor={sensor}
-                      min={min}
-                      max={max}
-                    />
-                  );
-                })}
+                {getPressureSensors(selectedDevice).map((sensor) => (
+                  <SensorCard key={sensor.id} sensor={sensor} />
+                ))}
               </div>
             ) : (
               <p>Датчиков давления не найдено</p>

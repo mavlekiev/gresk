@@ -7,15 +7,12 @@
   border-radius: 8px;
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin: 10px;
-}
+  margin: 0;
+  transition: background-color 0.3s ease;
 
-.range-indicator {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 30px;
-  text-align: right;
+  &:hover {
+    background-color: #f5f5f5;
+  }
 }
 
 .value-container {
@@ -27,11 +24,20 @@
 .value-container span {
   font-size: 24px;
   font-weight: bold;
+
+  @media screen and (max-width: 390px) {
+    font-size: 20px;
+  }
 }
 
 .value-container p {
   font-size: 14px;
   color: #666;
+  margin: 0;
+
+  @media screen and (max-width: 390px) {
+    font-size: 10px;
+  }
 }
 
 .settings-icon {
