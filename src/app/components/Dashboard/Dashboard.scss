@@ -1,29 +1,21 @@
 .dashboard {
-  display: flex;
-  justify-content: start;
-  gap: 10px;
+  padding: 20px;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background-color: #f7f9fc;
+  min-height: 100vh;
 }
 
-.left-panel {
-  max-width: 30dvw;
+.dashboard__title {
+  text-align: center;
+  color: #2c3e50;
+  margin-bottom: 20px;
+  font-size: 24px;
 }
 
-.right-panel {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  max-width: 70dvw;
-}
-
-.title {
-  margin: 0;
-  @media screen and (max-width: 390px) {
-    font-size: 1em;
-  }
-}
-
-.sensor-grid {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
+.dashboard__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 20px;
+  max-width: 1600px;
+  margin: 0 auto;
 }
