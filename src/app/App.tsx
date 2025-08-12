@@ -49,7 +49,7 @@ const App: React.FC = () => {
     fetchData();
     const interval = setInterval(fetchData, 300000);
     return () => clearInterval(interval);
-  }, []);
+  }, [ZONT_CLIENT, ZONT_TOKEN]);
 
   if (loading) return <p className="card-list__message">Загрузка данных...</p>;
   if (error) return <p className="card-list__message">Ошибка: {error}</p>;
