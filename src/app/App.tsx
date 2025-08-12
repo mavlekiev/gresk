@@ -7,8 +7,8 @@ const App: React.FC = () => {
   const [devices, setDevices] = useState<ZontDevice[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
-  const ZONT_CLIENT = process.env.REACT_APP_ZONT_CLIENT;
-  const ZONT_TOKEN = process.env.REACT_APP_ZONT_TOKEN;
+  const ZONT_CLIENT = import.meta.env.VITE_ZONT_CLIENT;
+  const ZONT_TOKEN = import.meta.env.VITE_ZONT_TOKEN;
 
   useEffect(() => {
     async function fetchData() {
