@@ -13,7 +13,7 @@ const App: React.FC = () => {
   useEffect(() => {
     async function fetchData() {
       if (!ZONT_CLIENT || !ZONT_TOKEN) {
-        setError('Не заданы переменные окружения ZONT_CLIENT или ZONT_TOKEN');
+        setError('Не заданы переменные ZONT_CLIENT или ZONT_TOKEN');
         setLoading(false);
         return;
       }
