@@ -11,6 +11,7 @@ const App: React.FC = () => {
   useEffect(() => {
     async function fetchData() {
       try {
+        
         const response = await fetch(
           'https://server-gresk.onrender.com/api/zont/devices'
         );
@@ -43,6 +44,7 @@ const App: React.FC = () => {
   return (
     <div className="app">
       <Dashboard devices={devices} />
+      <iframe src="https://my.zont.online/api/graphs-frame?_public_api_key=6e14d9e93dcde2b5716f5323e5d604a0aafbedd6" allow="fullscreen" width="100%" height="100%" style={{ border: 'none' }}></iframe>
     </div>
   );
 };
