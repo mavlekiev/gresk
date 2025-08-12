@@ -18,7 +18,17 @@ const App: React.FC = () => {
         return;
       }
       try {
-        //
+        // const response = await fetch(
+        //   'https://my.zont.online/api/widget/v3/devices ',
+        //   {
+        //     method: 'GET',
+        //     headers: {
+        //       'X-ZONT-Client': ZONT_CLIENT,
+        //       'X-ZONT-TOKEN': ZONT_TOKEN,
+        //     },
+        //   }
+        // );
+
         const response = await fetch(
           'https://server-gresk.onrender.com/api/zont/devices'
         );
