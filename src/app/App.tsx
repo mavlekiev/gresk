@@ -7,17 +7,24 @@ const App: React.FC = () => {
   const [devices, setDevices] = useState<ZontDevice[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const ZONT_TOKEN = process.env.ZONT_TOKEN;
+  const ZONT_CLIENT = process.env.ZONT_CLIENT;
 
   useEffect(() => {
     async function fetchData() {
+      if (!ZONT_CLIENT || !ZONT_TOKEN) {
+        setError('Не заданы переменные окружения ZONT_CLIENT или ZONT_TOKEN');
+        setLoading(false);
+        return;
+      }
       try {
         const response = await fetch(
           'https://my.zont.online/api/widget/v3/devices ',
           {
             method: 'GET',
             headers: {
-              'X-ZONT-Client': 'mavlekiev@gmail.com',
-              'X-ZONT-TOKEN': '917anr4jyo1v8l59uweaaxs8agr7s4av',
+              'X-ZONT-Client': ZONT_CLIENT,
+              'X-ZONT-TOKEN': ZONT_TOKEN,
             },
           }
         );
