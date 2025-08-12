@@ -18,15 +18,9 @@ const App: React.FC = () => {
         return;
       }
       try {
+        //
         const response = await fetch(
-          'https://my.zont.online/api/widget/v3/devices ',
-          {
-            method: 'GET',
-            headers: {
-              'X-ZONT-Client': ZONT_CLIENT,
-              'X-ZONT-TOKEN': ZONT_TOKEN,
-            },
-          }
+          'https://server-gresk.onrender.com/api/zont/devices'
         );
 
         if (!response.ok) throw new Error('Ошибка загрузки данных');
