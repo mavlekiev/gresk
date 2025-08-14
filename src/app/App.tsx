@@ -7,30 +7,12 @@ const App: React.FC = () => {
   const [devices, setDevices] = useState<ZontDevice[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
-  const ZONT_CLIENT = import.meta.env.VITE_ZONT_CLIENT;
-  const ZONT_TOKEN = import.meta.env.VITE_ZONT_TOKEN;
 
   useEffect(() => {
     async function fetchData() {
-      if (!ZONT_CLIENT || !ZONT_TOKEN) {
-        setError('Не заданы переменные ZONT_CLIENT или ZONT_TOKEN');
-        setLoading(false);
-        return;
-      }
       try {
-        // const response = await fetch(
-        //   'https://my.zont.online/api/widget/v3/devices ',
-        //   {
-        //     method: 'GET',
-        //     headers: {
-        //       'X-ZONT-Client': ZONT_CLIENT,
-        //       'X-ZONT-TOKEN': ZONT_TOKEN,
-        //     },
-        //   }
-        // );
-
         const response = await fetch(
-          'https://server-gresk.onrender.com/api/zont/devices'
+          'https://zont-gresk.ru/api/zont-proxy.php'
         );
 
         if (!response.ok) throw new Error('Ошибка загрузки данных');
@@ -53,7 +35,7 @@ const App: React.FC = () => {
     fetchData();
     const interval = setInterval(fetchData, 300000);
     return () => clearInterval(interval);
-  }, [ZONT_CLIENT, ZONT_TOKEN]);
+  }, []);
 
   if (loading) return <p className="card-list__message">Загрузка данных...</p>;
   if (error) return <p className="card-list__message">Ошибка: {error}</p>;
