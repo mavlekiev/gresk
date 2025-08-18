@@ -11,9 +11,7 @@ const App: React.FC = () => {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await fetch(
-          'https://zont-gresk.ru/api/zont-proxy.php'
-        );
+        const response = await fetch('/api/zont-proxy.php');
 
         if (!response.ok) throw new Error('Ошибка загрузки данных');
 
