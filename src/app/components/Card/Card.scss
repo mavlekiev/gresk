@@ -1,10 +1,20 @@
 .card {
+  min-width: 150px;
+  max-height: 150px;
   background: white;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   padding: 20px;
   position: relative;
   outline: none;
+  transition: none; /* Убраны hover-эффекты */
+}
+
+/* Убран :hover */
+.card--offline {
+  opacity: 0.85;
+  background-color: #fdf2f2;
+  border: 1px solid #ffd6d6;
 }
 
 .card__header {
@@ -32,8 +42,8 @@
   right: 10px;
   background: #e74c3c;
   color: white;
-  font-size: 12px;
-  padding: 4px 8px;
+  font-size: 9px;
+  padding: 3px;
   border-radius: 4px;
   white-space: nowrap;
 }

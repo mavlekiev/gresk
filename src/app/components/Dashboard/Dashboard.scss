@@ -13,23 +13,32 @@
 }
 
 .dashboard__grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  // display: grid;
+  // grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
   gap: 20px;
   max-width: 1600px;
   margin: 0 auto;
 }
 
 .block {
-  display: contents;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content:baseline;
+  gap: 20px;
 }
 
 .block--primary {
-  border: 3px solid #007bff;
+  background-color: #d2e8f9;
+  //border: 1px solid #2196f3;
   border-radius: 14px;
+  padding: 22px;
 }
 
 .block--secondary {
-  border: 3px solid #28a745;
+  background-color: #f2f8e6 !important;
+  //border: 1px solid #66bb6a;
   border-radius: 14px;
+  padding: 22px;
 }
