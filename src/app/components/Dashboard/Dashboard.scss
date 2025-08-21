@@ -14,8 +14,22 @@
 
 .dashboard__grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  grid-template-columns: repeat(4, 1fr);
   gap: 20px;
   max-width: 1600px;
   margin: 0 auto;
+}
+
+.block {
+  display: contents;
+}
+
+.block--primary {
+  border: 3px solid #007bff;
+  border-radius: 14px;
+}
+
+.block--secondary {
+  border: 3px solid #28a745;
+  border-radius: 14px;
 }

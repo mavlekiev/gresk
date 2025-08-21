@@ -3,21 +3,8 @@
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   padding: 20px;
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
   position: relative;
-}
-
-.card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-}
-
-.card--offline {
-  opacity: 0.85;
-  background-color: #fdf2f2;
-  border: 1px solid #ffd6d6;
+  outline: none;
 }
 
 .card__header {
@@ -45,8 +32,8 @@
   right: 10px;
   background: #e74c3c;
   color: white;
-  font-size: 9px;
-  padding: 3px;
+  font-size: 12px;
+  padding: 4px 8px;
   border-radius: 4px;
   white-space: nowrap;
 }
