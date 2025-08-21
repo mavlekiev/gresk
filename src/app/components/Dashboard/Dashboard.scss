@@ -1,7 +1,6 @@
 .dashboard {
   padding: 20px;
   font-family: 'Segoe UI', Arial, sans-serif;
-  background-color: #f7f9fc;
   min-height: 100vh;
 }
 
@@ -15,7 +14,7 @@
 .dashboard__grid {
   display: flex;
   flex-wrap: wrap;
-  gap: 20px;
+  gap: 10px;
   max-width: 1600px;
   margin: 0 auto;
 }
@@ -24,16 +23,24 @@
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
+  max-width: 1600px;
 }
 
 .block--primary {
   background-color: #d2e8f9;
   border-radius: 14px;
-  padding: 20px;
+  padding: 10px;
 }
 
 .block--secondary {
   background-color: #f2f8e6;
   border-radius: 14px;
-  padding: 20px;
+  padding: 10px;
+}
+
+.block--primary,
+.block--secondary {
+  @media screen and (max-width: 807px) {
+    max-width: 700px;
+  }
 }

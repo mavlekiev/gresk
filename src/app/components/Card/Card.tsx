@@ -44,7 +44,9 @@ const Card: React.FC<CardProps> = ({
       <div className="card__sensors">
         {sensors.length > 0 ? (
           sensors.map((sensor, index) => {
-            const range = ranges[sensor.name.trim()] || {};
+            const originalName = sensor.name.trim();
+            const range = ranges[originalName] || {};
+
             const isOutOfRange =
               sensor.value !== undefined &&
               range.min !== undefined &&
@@ -60,7 +62,7 @@ const Card: React.FC<CardProps> = ({
                   <div className="sensor__value">
                     {sensor.value ?? '—'} {sensor.unit ?? ''}
                   </div>
-                  <div className="sensor__label">{sensor.name.trim()}</div>
+                  <div className="sensor__label">{sensor.name}</div>
                 </div>
               </div>
             );

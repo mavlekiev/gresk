@@ -7,6 +7,57 @@ interface DashboardProps {
   devices: ZontDevice[];
 }
 
+const DEVICE_NAME_MAP: Record<string, string> = {
+  'К.7/1 Teplo': 'Жилой комплекс «Медовая долина» 7к1',
+  'К. 5/1 Teplo': 'Жилой комплекс «Медовая долина» 5к1',
+  'Mar5. Teplo': 'Жилой комплекс «Марьино Град»',
+  'Rum Teplo': 'Жилой комплекс Homecity',
+  'Prokshino Teplo': 'Жилой комплекс «Николин Парк»',
+  'Mar 5. VZU': 'Жилой комплекс «Марьино Град»',
+  'Klen allei VZU': 'Жилой комплекс «Кленовые Аллеи»',
+  'Rom VZU': 'Жилой комплекс «Западное Кунцево»',
+  'Krekshino VZU': 'Жилой комплекс «Медовая долина»',
+  'Cvet VZU': 'Жилой комплекс «Цветочные Поляны»',
+};
+
+const SENSOR_NAME_MAP: Record<string, Record<string, string>> = {
+  'К.7/1 Teplo': {
+    'Темп. Отопление': 'Температура отопления',
+    'Темп. ГВС': 'Температура горячего водоснабжения',
+  },
+  'К. 5/1 Teplo': {
+    'Темп. Отопление': 'Температура отопления',
+    'Темп. ГВС': 'Температура горячего водоснабжения',
+  },
+  'Mar5. Teplo': {
+    'Темп. Отопление': 'Температура отопления',
+    'Тем. ГВС': 'Температура горячего водоснабжения',
+  },
+  'Rum Teplo': {
+    'Т подачи':
+      'Температура отопления (теплоносителя для приготовления горячего водоснабжения)',
+  },
+  'Prokshino Teplo': {
+    'Т отопления': 'Температура отопления',
+    'Т ГВС': 'Температура горячего водоснабжения',
+  },
+  'Mar 5. VZU': {
+    'Давление город': 'Давление холодного водоснабжения',
+  },
+  'Klen allei VZU': {
+    'Давление в город': 'Давление холодного водоснабжения',
+  },
+  'Rom VZU': {
+    'Д поселок': 'Давление холодного водоснабжения',
+  },
+  'Krekshino VZU': {
+    'Давление в поселок': 'Давление холодного водоснабжения',
+  },
+  'Cvet VZU': {
+    'Д в поселок': 'Давление холодного водоснабжения',
+  },
+};
+
 const Dashboard: React.FC<DashboardProps> = ({ devices }) => {
   const [cachedDevices, setCachedDevices] = useState<ZontDevice[]>(devices);
 
@@ -120,9 +171,13 @@ const Dashboard: React.FC<DashboardProps> = ({ devices }) => {
               <Card
                 key={name}
                 device={device}
-                title={name}
+                title={DEVICE_NAME_MAP[name]}
                 type="teplo"
-                sensors={sensors}
+                sensors={sensors.map((sensor) => ({
+                  ...sensor,
+                  name:
+                    SENSOR_NAME_MAP[name]?.[sensor.name.trim()] || sensor.name,
+                }))}
                 ranges={ranges}
               />
             );
@@ -141,9 +196,20 @@ const Dashboard: React.FC<DashboardProps> = ({ devices }) => {
               <Card
                 key={name}
                 device={device}
-                title={name}
+                title={DEVICE_NAME_MAP[name]}
                 type="vzu"
-                sensors={sensor ? [sensor] : []}
+                sensors={
+                  sensor
+                    ? [
+                        {
+                          ...sensor,
+                          name:
+                            SENSOR_NAME_MAP[name]?.[sensor.name.trim()] ||
+                            sensor.name,
+                        },
+                      ]
+                    : []
+                }
                 ranges={ranges}
               />
             );
@@ -163,9 +229,13 @@ const Dashboard: React.FC<DashboardProps> = ({ devices }) => {
               <Card
                 key={name}
                 device={device}
-                title={name}
+                title={DEVICE_NAME_MAP[name]}
                 type="teplo"
-                sensors={sensors}
+                sensors={sensors.map((sensor) => ({
+                  ...sensor,
+                  name:
+                    SENSOR_NAME_MAP[name]?.[sensor.name.trim()] || sensor.name,
+                }))}
                 ranges={ranges}
               />
             );
@@ -184,9 +254,20 @@ const Dashboard: React.FC<DashboardProps> = ({ devices }) => {
               <Card
                 key={name}
                 device={device}
-                title={name}
+                title={DEVICE_NAME_MAP[name]}
                 type="vzu"
-                sensors={sensor ? [sensor] : []}
+                sensors={
+                  sensor
+                    ? [
+                        {
+                          ...sensor,
+                          name:
+                            SENSOR_NAME_MAP[name]?.[sensor.name.trim()] ||
+                            sensor.name,
+                        },
+                      ]
+                    : []
+                }
                 ranges={ranges}
               />
             );
@@ -198,16 +279,24 @@ const Dashboard: React.FC<DashboardProps> = ({ devices }) => {
           const device = getDisplayDevice(name);
           if (!device) return null;
 
-          const sensors = findSensorsByTypeAndKeywords(device, 'temperature');
+          let sensors = findSensorsByTypeAndKeywords(device, 'temperature');
+          if (name === 'Rum Teplo') {
+            sensors = sensors.filter((s) => s.name.includes('Т подачи'));
+          }
+
           const ranges = getRangesForDevice(device);
 
           return (
             <Card
               key={name}
               device={device}
-              title={name}
+              title={DEVICE_NAME_MAP[name]}
               type="teplo"
-              sensors={sensors}
+              sensors={sensors.map((sensor) => ({
+                ...sensor,
+                name:
+                  SENSOR_NAME_MAP[name]?.[sensor.name.trim()] || sensor.name,
+              }))}
               ranges={ranges}
             />
           );
@@ -227,9 +316,20 @@ const Dashboard: React.FC<DashboardProps> = ({ devices }) => {
             <Card
               key={name}
               device={device}
-              title={name}
+              title={DEVICE_NAME_MAP[name]}
               type="vzu"
-              sensors={sensor ? [sensor] : []}
+              sensors={
+                sensor
+                  ? [
+                      {
+                        ...sensor,
+                        name:
+                          SENSOR_NAME_MAP[name]?.[sensor.name.trim()] ||
+                          sensor.name,
+                      },
+                    ]
+                  : []
+              }
               ranges={ranges}
             />
           );
@@ -249,9 +349,20 @@ const Dashboard: React.FC<DashboardProps> = ({ devices }) => {
             <Card
               key={name}
               device={device}
-              title={name}
+              title={DEVICE_NAME_MAP[name]}
               type="vzu"
-              sensors={sensor ? [sensor] : []}
+              sensors={
+                sensor
+                  ? [
+                      {
+                        ...sensor,
+                        name:
+                          SENSOR_NAME_MAP[name]?.[sensor.name.trim()] ||
+                          sensor.name,
+                      },
+                    ]
+                  : []
+              }
               ranges={ranges}
             />
           );
@@ -271,9 +382,20 @@ const Dashboard: React.FC<DashboardProps> = ({ devices }) => {
             <Card
               key={name}
               device={device}
-              title={name}
+              title={DEVICE_NAME_MAP[name]}
               type="vzu"
-              sensors={sensor ? [sensor] : []}
+              sensors={
+                sensor
+                  ? [
+                      {
+                        ...sensor,
+                        name:
+                          SENSOR_NAME_MAP[name]?.[sensor.name.trim()] ||
+                          sensor.name,
+                      },
+                    ]
+                  : []
+              }
               ranges={ranges}
             />
           );
