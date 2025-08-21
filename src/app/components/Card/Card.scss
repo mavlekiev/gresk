@@ -1,5 +1,5 @@
 .card {
-  min-width: 150px;
+  min-width: 180px;
   max-height: 150px;
   background: white;
   border-radius: 12px;
@@ -7,10 +7,9 @@
   padding: 20px;
   position: relative;
   outline: none;
-  transition: none; /* Убраны hover-эффекты */
+  transition: none;
 }
 
-/* Убран :hover */
 .card--offline {
   opacity: 0.85;
   background-color: #fdf2f2;
