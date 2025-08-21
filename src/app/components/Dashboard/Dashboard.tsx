@@ -214,25 +214,25 @@ const Dashboard: React.FC<DashboardProps> = ({ devices }) => {
         })}
 
         {['Klen allei VZU'].map((name) => {
-            const device = getDisplayDevice(name);
-            if (!device) return null;
+          const device = getDisplayDevice(name);
+          if (!device) return null;
 
-            const sensor = findSensorsByTypeAndKeywords(device, 'pressure', [
-              'город',
-              'давление город',
-            ])[0];
-            const ranges = getRangesForDevice(device);
+          const sensor = findSensorsByTypeAndKeywords(device, 'pressure', [
+            'город',
+            'давление город',
+          ])[0];
+          const ranges = getRangesForDevice(device);
 
-            return (
-              <Card
-                key={name}
-                device={device}
-                title={name}
-                type="vzu"
-                sensors={sensor ? [sensor] : []}
-                ranges={ranges}
-              />
-            );
+          return (
+            <Card
+              key={name}
+              device={device}
+              title={name}
+              type="vzu"
+              sensors={sensor ? [sensor] : []}
+              ranges={ranges}
+            />
+          );
         })}
 
         {['Rom VZU'].map((name) => {

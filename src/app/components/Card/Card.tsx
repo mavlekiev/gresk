@@ -15,7 +15,13 @@ interface CardProps {
   ranges: Record<string, { min?: number; max?: number }>;
 }
 
-const Card: React.FC<CardProps> = ({ device, title, type, sensors, ranges }) => {
+const Card: React.FC<CardProps> = ({
+  device,
+  title,
+  type,
+  sensors,
+  ranges,
+}) => {
   const getDeviceStatus = () => {
     return device.online
       ? { icon: '🟢', label: 'На связи' }
@@ -25,7 +31,9 @@ const Card: React.FC<CardProps> = ({ device, title, type, sensors, ranges }) => 
   const status = getDeviceStatus();
 
   return (
-    <div className={`card card--${type} ${!device.online ? 'card--offline' : ''}`}>
+    <div
+      className={`card card--${type} ${!device.online ? 'card--offline' : ''}`}
+    >
       <div className="card__header">
         <h3>{title}</h3>
         <span className="status-icon" title={status.label}>
