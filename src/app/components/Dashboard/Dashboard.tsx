@@ -284,6 +284,10 @@ const Dashboard: React.FC<DashboardProps> = ({ devices }) => {
             sensors = sensors.filter((s) => s.name.includes('Т подачи'));
           }
 
+          if (name === 'Prokshino Teplo') {
+            sensors = sensors.reverse();
+          }
+
           const ranges = getRangesForDevice(device);
 
           return (
