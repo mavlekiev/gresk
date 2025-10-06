@@ -1,29 +1,46 @@
 .dashboard {
+  padding: 20px;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  min-height: 100vh;
+}
+
+.dashboard__title {
+  text-align: center;
+  color: #2c3e50;
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+.dashboard__grid {
   display: flex;
-  justify-content: start;
-  gap: 10px;
-}
-
-.left-panel {
-  max-width: 30dvw;
-}
-
-.right-panel {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  max-width: 70dvw;
-}
-
-.title {
-  margin: 0;
-  @media screen and (max-width: 390px) {
-    font-size: 1em;
-  }
-}
-
-.sensor-grid {
-  display: flex;
-  gap: 10px;
   flex-wrap: wrap;
+  gap: 10px;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+.block {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  max-width: 1600px;
+}
+
+.block--primary {
+  background-color: #d2e8f9;
+  border-radius: 14px;
+  padding: 10px;
+}
+
+.block--secondary {
+  background-color: #f2f8e6;
+  border-radius: 14px;
+  padding: 10px;
+}
+
+.block--primary,
+.block--secondary {
+  @media screen and (max-width: 807px) {
+    max-width: 700px;
+  }
 }
