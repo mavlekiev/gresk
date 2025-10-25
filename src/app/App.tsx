@@ -37,6 +37,27 @@ const App: React.FC = () => {
     return () => clearInterval(interval);
   }, []);
 
+  const preloadAndUnlockOnInteraction = () => {
+    const audio = new Audio('/sounds/alarm.mp3');
+    audio.preload = 'auto';
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (window as any).__PRELOADED_ALERT_SOUND__ = audio;
+
+    const unlock = () => {
+      audio.muted = false;
+      audio.play();
+      document.removeEventListener('click', unlock);
+      document.removeEventListener('touchstart', unlock);
+    };
+
+    document.addEventListener('click', unlock);
+    document.addEventListener('touchstart', unlock);
+  };
+
+  useEffect(() => {
+    preloadAndUnlockOnInteraction();
+  }, []);
+
   if (loading) return <p className="card-list__message">Загрузка данных...</p>;
   if (error) return <p className="card-list__message">Ошибка: {error}</p>;
 

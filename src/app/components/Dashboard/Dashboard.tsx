@@ -2,61 +2,12 @@ import React, { useState, useEffect } from 'react';
 import Card from '../Card/Card';
 import './Dashboard.scss';
 import type { ZontDevice } from '../../utils/interfaces/zont-devices.interface';
+import HeatingSeasonForm from '../HeatingSeasonForm    /HeatingSeasonForm';
+import { DEVICE_NAME_MAP, SENSOR_NAME_MAP } from '../../utils/const/const';
 
 interface DashboardProps {
   devices: ZontDevice[];
 }
-
-const DEVICE_NAME_MAP: Record<string, string> = {
-  'К.7/1 Teplo': 'Жилой комплекс «Медовая долина» 7к1',
-  'К. 5/1 Teplo': 'Жилой комплекс «Медовая долина» 5к1',
-  'Mar5. Teplo': 'Жилой комплекс «Марьино Град»',
-  'Rum Teplo': 'Жилой комплекс Homecity',
-  'Prokshino Teplo': 'Жилой комплекс «Николин Парк»',
-  'Mar 5. VZU': 'Жилой комплекс «Марьино Град»',
-  'Klen allei VZU': 'Жилой комплекс «Кленовые Аллеи»',
-  'Rom VZU': 'Жилой комплекс «Западное Кунцево»',
-  'Krekshino VZU': 'Жилой комплекс «Медовая долина»',
-  'Cvet VZU': 'Жилой комплекс «Цветочные Поляны»',
-};
-
-const SENSOR_NAME_MAP: Record<string, Record<string, string>> = {
-  'К.7/1 Teplo': {
-    'Темп. Отопление': 'Температура отопления',
-    'Темп. ГВС': 'Температура горячего водоснабжения',
-  },
-  'К. 5/1 Teplo': {
-    'Темп. Отопление': 'Температура отопления',
-    'Темп. ГВС': 'Температура горячего водоснабжения',
-  },
-  'Mar5. Teplo': {
-    'Темп. Отопление': 'Температура отопления',
-    'Тем. ГВС': 'Температура горячего водоснабжения',
-  },
-  'Rum Teplo': {
-    'Т подачи':
-      'Температура отопления (теплоносителя для приготовления горячего водоснабжения)',
-  },
-  'Prokshino Teplo': {
-    'Т отопления': 'Температура отопления',
-    'Т ГВС': 'Температура горячего водоснабжения',
-  },
-  'Mar 5. VZU': {
-    'Давление город': 'Давление холодного водоснабжения',
-  },
-  'Klen allei VZU': {
-    'Давление в город': 'Давление холодного водоснабжения',
-  },
-  'Rom VZU': {
-    'Д поселок': 'Давление холодного водоснабжения',
-  },
-  'Krekshino VZU': {
-    'Давление в поселок': 'Давление холодного водоснабжения',
-  },
-  'Cvet VZU': {
-    'Д в поселок': 'Давление холодного водоснабжения',
-  },
-};
 
 const Dashboard: React.FC<DashboardProps> = ({ devices }) => {
   const [cachedDevices, setCachedDevices] = useState<ZontDevice[]>(devices);
@@ -291,120 +242,129 @@ const Dashboard: React.FC<DashboardProps> = ({ devices }) => {
           const ranges = getRangesForDevice(device);
 
           return (
-            <Card
-              key={name}
-              device={device}
-              title={DEVICE_NAME_MAP[name]}
-              type="teplo"
-              sensors={sensors.map((sensor) => ({
-                ...sensor,
-                name:
-                  SENSOR_NAME_MAP[name]?.[sensor.name.trim()] || sensor.name,
-              }))}
-              ranges={ranges}
-            />
+            <div className="wrapper" key={name}>
+              <Card
+                key={name}
+                device={device}
+                title={DEVICE_NAME_MAP[name]}
+                type="teplo"
+                sensors={sensors.map((sensor) => ({
+                  ...sensor,
+                  name:
+                    SENSOR_NAME_MAP[name]?.[sensor.name.trim()] || sensor.name,
+                }))}
+                ranges={ranges}
+              />
+            </div>
           );
         })}
 
-        {['Klen allei VZU'].map((name) => {
-          const device = getDisplayDevice(name);
-          if (!device) return null;
+        <div className="wrapper">
+          {['Klen allei VZU'].map((name) => {
+            const device = getDisplayDevice(name);
+            if (!device) return null;
 
-          const sensor = findSensorsByTypeAndKeywords(device, 'pressure', [
-            'город',
-            'давление город',
-          ])[0];
-          const ranges = getRangesForDevice(device);
+            const sensor = findSensorsByTypeAndKeywords(device, 'pressure', [
+              'город',
+              'давление город',
+            ])[0];
+            const ranges = getRangesForDevice(device);
 
-          return (
-            <Card
-              key={name}
-              device={device}
-              title={DEVICE_NAME_MAP[name]}
-              type="vzu"
-              sensors={
-                sensor
-                  ? [
-                      {
-                        ...sensor,
-                        name:
-                          SENSOR_NAME_MAP[name]?.[sensor.name.trim()] ||
-                          sensor.name,
-                      },
-                    ]
-                  : []
-              }
-              ranges={ranges}
-            />
-          );
-        })}
+            return (
+              <Card
+                key={name}
+                device={device}
+                title={DEVICE_NAME_MAP[name]}
+                type="vzu"
+                sensors={
+                  sensor
+                    ? [
+                        {
+                          ...sensor,
+                          name:
+                            SENSOR_NAME_MAP[name]?.[sensor.name.trim()] ||
+                            sensor.name,
+                        },
+                      ]
+                    : []
+                }
+                ranges={ranges}
+              />
+            );
+          })}
+        </div>
 
-        {['Rom VZU'].map((name) => {
-          const device = getDisplayDevice(name);
-          if (!device) return null;
+        <div className="wrapper">
+          {['Rom VZU'].map((name) => {
+            const device = getDisplayDevice(name);
+            if (!device) return null;
 
-          const sensor = findSensorsByTypeAndKeywords(device, 'pressure', [
-            'поселок',
-            'давление поселок',
-          ])[0];
-          const ranges = getRangesForDevice(device);
+            const sensor = findSensorsByTypeAndKeywords(device, 'pressure', [
+              'поселок',
+              'давление поселок',
+            ])[0];
+            const ranges = getRangesForDevice(device);
 
-          return (
-            <Card
-              key={name}
-              device={device}
-              title={DEVICE_NAME_MAP[name]}
-              type="vzu"
-              sensors={
-                sensor
-                  ? [
-                      {
-                        ...sensor,
-                        name:
-                          SENSOR_NAME_MAP[name]?.[sensor.name.trim()] ||
-                          sensor.name,
-                      },
-                    ]
-                  : []
-              }
-              ranges={ranges}
-            />
-          );
-        })}
+            return (
+              <Card
+                key={name}
+                device={device}
+                title={DEVICE_NAME_MAP[name]}
+                type="vzu"
+                sensors={
+                  sensor
+                    ? [
+                        {
+                          ...sensor,
+                          name:
+                            SENSOR_NAME_MAP[name]?.[sensor.name.trim()] ||
+                            sensor.name,
+                        },
+                      ]
+                    : []
+                }
+                ranges={ranges}
+              />
+            );
+          })}
+        </div>
 
-        {['Cvet VZU'].map((name) => {
-          const device = getDisplayDevice(name);
-          if (!device) return null;
+        <div className="wrapper">
+          {['Cvet VZU'].map((name) => {
+            const device = getDisplayDevice(name);
+            if (!device) return null;
 
-          const sensor = findSensorsByTypeAndKeywords(device, 'pressure', [
-            'в поселок',
-            'д в поселок',
-          ])[0];
-          const ranges = getRangesForDevice(device);
+            const sensor = findSensorsByTypeAndKeywords(device, 'pressure', [
+              'в поселок',
+              'д в поселок',
+            ])[0];
+            const ranges = getRangesForDevice(device);
 
-          return (
-            <Card
-              key={name}
-              device={device}
-              title={DEVICE_NAME_MAP[name]}
-              type="vzu"
-              sensors={
-                sensor
-                  ? [
-                      {
-                        ...sensor,
-                        name:
-                          SENSOR_NAME_MAP[name]?.[sensor.name.trim()] ||
-                          sensor.name,
-                      },
-                    ]
-                  : []
-              }
-              ranges={ranges}
-            />
-          );
-        })}
+            return (
+              <Card
+                key={name}
+                device={device}
+                title={DEVICE_NAME_MAP[name]}
+                type="vzu"
+                sensors={
+                  sensor
+                    ? [
+                        {
+                          ...sensor,
+                          name:
+                            SENSOR_NAME_MAP[name]?.[sensor.name.trim()] ||
+                            sensor.name,
+                        },
+                      ]
+                    : []
+                }
+                ranges={ranges}
+              />
+            );
+          })}
+        </div>
       </div>
+      <HeatingSeasonForm onSeasonChange={() => {}} />
     </div>
   );
 };

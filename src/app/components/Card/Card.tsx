@@ -1,6 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './Card.scss';
 import type { ZontDevice } from '../../utils/interfaces/zont-devices.interface';
+import {
+  DEVICE_NAME_MAP,
+  SENSOR_NAME_MAP,
+  SENSOR_THRESHOLDS,
+} from '../../utils/const/const';
 
 interface CardProps {
   device: ZontDevice;
@@ -30,9 +35,48 @@ const Card: React.FC<CardProps> = ({
 
   const status = getDeviceStatus();
 
+  const shouldBlink = sensors.some((sensor) => {
+    const originalDeviceName =
+      Object.keys(SENSOR_THRESHOLDS).find(
+        (key) => DEVICE_NAME_MAP[key] === title
+      ) || device.name.trim();
+
+    const thresholds = SENSOR_THRESHOLDS[originalDeviceName];
+    if (!thresholds) return false;
+
+    const reverseMap = Object.fromEntries(
+      Object.entries(SENSOR_NAME_MAP[originalDeviceName] || {}).map(
+        ([orig, renamed]) => [renamed, orig]
+      )
+    );
+    const originalSensorName = reverseMap[sensor.name] || sensor.name;
+
+    const threshold = thresholds[originalSensorName];
+    return (
+      threshold !== undefined &&
+      sensor.value !== undefined &&
+      sensor.value < threshold
+    );
+  });
+
+  // ✅ Переносим side effect в useEffect
+  useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const sound = (window as any).__PRELOADED_ALERT_SOUND__;
+    if (sound && shouldBlink) {
+      sound.currentTime = 0;
+      sound.play().catch((err) => {
+        console.log('Ошибка воспроизведения звука:', err);
+      });
+    }
+  }, [shouldBlink]); // ← запускаем при изменении shouldBlink
+
   return (
     <div
       className={`card card--${type} ${!device.online ? 'card--offline' : ''}`}
+      style={{
+        animation: shouldBlink ? 'blink 1.8s infinite' : 'none',
+      }}
     >
       <div className="card__header">
         <h3>{title}</h3>
