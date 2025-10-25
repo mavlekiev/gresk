@@ -59,17 +59,16 @@ const Card: React.FC<CardProps> = ({
     );
   });
 
-  // ✅ Переносим side effect в useEffect
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const sound = (window as any).__PRELOADED_ALERT_SOUND__;
     if (sound && shouldBlink) {
       sound.currentTime = 0;
-      sound.play().catch((err) => {
+      sound.play().catch((err: unknown) => {
         console.log('Ошибка воспроизведения звука:', err);
       });
     }
-  }, [shouldBlink]); // ← запускаем при изменении shouldBlink
+  }, [shouldBlink]);
 
   return (
     <div
