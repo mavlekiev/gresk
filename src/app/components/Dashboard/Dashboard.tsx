@@ -11,6 +11,17 @@ interface DashboardProps {
 
 const Dashboard: React.FC<DashboardProps> = ({ devices }) => {
   const [cachedDevices, setCachedDevices] = useState<ZontDevice[]>(devices);
+  const [heatingSeason, setHeatingSeason] = useState<{
+    start: string;
+    end: string;
+  } | null>(null);
+
+  useEffect(() => {
+    const saved = localStorage.getItem('heatingSeason');
+    if (saved) {
+      setHeatingSeason(JSON.parse(saved));
+    }
+  }, []);
 
   useEffect(() => {
     if (devices.length > 0) {
@@ -130,6 +141,7 @@ const Dashboard: React.FC<DashboardProps> = ({ devices }) => {
                     SENSOR_NAME_MAP[name]?.[sensor.name.trim()] || sensor.name,
                 }))}
                 ranges={ranges}
+                heatingSeason={heatingSeason}
               />
             );
           })}
@@ -162,6 +174,7 @@ const Dashboard: React.FC<DashboardProps> = ({ devices }) => {
                     : []
                 }
                 ranges={ranges}
+                heatingSeason={heatingSeason}
               />
             );
           })}
@@ -188,6 +201,7 @@ const Dashboard: React.FC<DashboardProps> = ({ devices }) => {
                     SENSOR_NAME_MAP[name]?.[sensor.name.trim()] || sensor.name,
                 }))}
                 ranges={ranges}
+                heatingSeason={heatingSeason}
               />
             );
           })}
@@ -220,6 +234,7 @@ const Dashboard: React.FC<DashboardProps> = ({ devices }) => {
                     : []
                 }
                 ranges={ranges}
+                heatingSeason={heatingSeason}
               />
             );
           })}
@@ -254,6 +269,7 @@ const Dashboard: React.FC<DashboardProps> = ({ devices }) => {
                     SENSOR_NAME_MAP[name]?.[sensor.name.trim()] || sensor.name,
                 }))}
                 ranges={ranges}
+                heatingSeason={heatingSeason}
               />
             </div>
           );
@@ -289,6 +305,7 @@ const Dashboard: React.FC<DashboardProps> = ({ devices }) => {
                     : []
                 }
                 ranges={ranges}
+                heatingSeason={heatingSeason}
               />
             );
           })}
@@ -324,6 +341,7 @@ const Dashboard: React.FC<DashboardProps> = ({ devices }) => {
                     : []
                 }
                 ranges={ranges}
+                heatingSeason={heatingSeason}
               />
             );
           })}
@@ -359,6 +377,7 @@ const Dashboard: React.FC<DashboardProps> = ({ devices }) => {
                     : []
                 }
                 ranges={ranges}
+                heatingSeason={heatingSeason}
               />
             );
           })}

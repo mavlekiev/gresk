@@ -15,7 +15,7 @@ export const SENSOR_THRESHOLDS: Record<string, Record<string, number>> = {
     'Тем. ГВС': 50,
   },
   'Mar 5. VZU': {
-    'Давление город': 10,
+    'Давление город': 2,
   },
   'Rum Teplo': {
     'Т подачи': 70,
@@ -25,7 +25,7 @@ export const SENSOR_THRESHOLDS: Record<string, Record<string, number>> = {
     'Т ГВС': 50,
   },
   'Klen allei VZU': {
-    'Давление в город': 10,
+    'Давление в город': 2,
   },
   'Rom VZU': {
     'Д поселок': 2,

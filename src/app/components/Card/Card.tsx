@@ -18,6 +18,7 @@ interface CardProps {
     triggered?: boolean;
   }>;
   ranges: Record<string, { min?: number; max?: number }>;
+  heatingSeason: { start: string; end: string } | null;
 }
 
 const Card: React.FC<CardProps> = ({
@@ -26,6 +27,7 @@ const Card: React.FC<CardProps> = ({
   type,
   sensors,
   ranges,
+  heatingSeason,
 }) => {
   const getDeviceStatus = () => {
     return device.online
@@ -34,6 +36,37 @@ const Card: React.FC<CardProps> = ({
   };
 
   const status = getDeviceStatus();
+
+  const isWithinHeatingSeason = (): boolean => {
+    if (!heatingSeason) return true;
+
+    const today = new Date();
+    const start = new Date(heatingSeason.start);
+    const end = new Date(heatingSeason.end);
+
+    if (start > end) {
+      return today >= start || today <= end;
+    }
+
+    return today >= start && today <= end;
+  };
+
+  const isInSeason = isWithinHeatingSeason();
+
+  const isPressureSensor = (sensorName: string): boolean => {
+    const lower = sensorName.toLowerCase();
+    return lower.includes('давление') || lower.includes('бар');
+  };
+
+  const isGvsSensor = (sensorName: string): boolean => {
+    const lower = sensorName.toLowerCase();
+    return lower.includes('гвс') || lower.includes('горячего водоснабжения');
+  };
+
+  const isHeatingTempSensor = (sensorName: string): boolean => {
+    const lower = sensorName.toLowerCase();
+    return lower.includes('отопление') && !isGvsSensor(sensorName);
+  };
 
   const shouldBlink = sensors.some((sensor) => {
     const originalDeviceName =
@@ -52,11 +85,24 @@ const Card: React.FC<CardProps> = ({
     const originalSensorName = reverseMap[sensor.name] || sensor.name;
 
     const threshold = thresholds[originalSensorName];
-    return (
-      threshold !== undefined &&
-      sensor.value !== undefined &&
-      sensor.value < threshold
-    );
+
+    if (threshold === undefined || sensor.value === undefined) return false;
+
+    const belowThreshold = sensor.value < threshold;
+
+    if (isPressureSensor(sensor.name)) {
+      return belowThreshold;
+    }
+
+    if (isGvsSensor(sensor.name)) {
+      return belowThreshold;
+    }
+
+    if (isHeatingTempSensor(sensor.name)) {
+      return isInSeason && belowThreshold;
+    }
+
+    return isInSeason && belowThreshold;
   });
 
   useEffect(() => {

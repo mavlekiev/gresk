@@ -5,7 +5,7 @@ interface Props {
   onSeasonChange?: (start: string, end: string) => void;
 }
 
-const HeatingSeasonPicker: React.FC<Props> = ({ onSeasonChange }) => {
+const HeatingSeasonForm: React.FC<Props> = ({ onSeasonChange }) => {
   const savedSeason = localStorage.getItem('heatingSeason');
   const parsed = savedSeason ? JSON.parse(savedSeason) : null;
 
@@ -139,4 +139,4 @@ const HeatingSeasonPicker: React.FC<Props> = ({ onSeasonChange }) => {
   );
 };
 
-export default HeatingSeasonPicker;
+export default HeatingSeasonForm;
