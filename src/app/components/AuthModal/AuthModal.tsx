@@ -43,6 +43,7 @@ export default function AuthModal(props: AuthModalProps) {
                 placeholder="Введите пароль"
                 className="auth-modal__input"
                 autoFocus
+                autoComplete="new-password"
               />
               <button
                 type="button"

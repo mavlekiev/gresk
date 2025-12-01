@@ -35,13 +35,13 @@ const App: React.FC = () => {
     }
 
     fetchData();
-    const interval = setInterval(fetchData, 300000);
+    const interval = setInterval(fetchData, 60000);
     return () => clearInterval(interval);
   }, []);
 
   const preloadAndUnlockOnInteraction = () => {
     let context: AudioContext | null = null;
-    const sound = new Audio('/sounds/alarm.mp3');
+    const sound = new Audio('/dispetcher/sounds/alarm.mp3');
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (window as any).__PRELOADED_ALERT_SOUND__ = sound;
 
